@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Baxodir — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a1a2f;
+  --panel:#0e1316;
+  --card:#122232;
+  --muted:#b9c8d8;
+  --neon-pink:#ff1f7a;
+  --neon-green:#00f39a;
+  --glass:rgba(255,255,255,0.03);
+  --radius:18px;
+  --text:#eef3fb;
+  --accent:#00f39a;
+  --transition:300ms cubic-bezier(.2,.9,.2,1);
+  
+}
+  
+body.light {
+  --bg: #f6f8fb;
+  --panel: #ffffff;
+  --card: #f2f6fb;
+  --muted: #24364a;
+  --neon-pink: #d63384;
+  --neon-green: #0b8757;
+  --glass: rgba(0,0,0,0.02);
+  --text: #0b1b33;
+  --accent: #0b8757;
+}
+
+
+*{box-sizing:border-box}
+html,body{
+  height:100%;
+  margin:0;
+  padding:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background:linear-gradient(180deg,var(--bg),#071026);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  scroll-behavior:smooth;
+}
+
+
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+}
+
+
+.wrap{
+  max-width:980px;
+  margin:18px auto;
+  padding:18px;
+  position:relative;
+  z-index:1;
+}
+
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.hamb{
+  width:48px;
+  height:48px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,#ffffff,#000000);
+  color:#000;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(3,8,20,0.35);
+}
+.title{font-weight:700;font-size:16px}
+.controls{display:flex;gap:12px;align-items:center}
+
+
+.menu{
+  position:fixed;
+  left:12px;
+  top:12px;
+  right:12px;
+  background:linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.98));
+  padding:22px;
+  border-radius:14px;
+  box-shadow:0 18px 40px rgba(3,6,12,0.6);
+  transform:translateY(-140%);
+  transition:transform .28s cubic-bezier(.2,.9,.2,1);
+  z-index:60;
+}
+.menu.open{transform:translateY(0)}
+.menu a{display:block;color:var(--text);font-weight:700;padding:10px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.03);}
+
+
+.hero{
+  margin-top:18px;
+  background:linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(255,255,255,0.01));
+  padding:28px;
+  border-radius:20px;
+  box-shadow:0 10px 30px rgba(6,12,24,0.45);
+}
+.hero h1{font-size:32px;margin:0 0 6px 0;color:var(--text)}
+.hero h2{font-size:28px;margin:6px 0;color:var(--neon-green);text-shadow:0 10px 20px rgba(0,243,154,0.12)}
+.hero p{color:var(--muted);line-height:1.6}
+
+
+
+
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+@media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:560px){ .grid{grid-template-columns:1fr;} }
+
+  
+.card{
+  background:linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02));
+  padding:16px;
+  border-radius:14px;
+  margin-bottom:12px;
+  backdrop-filter: blur(6px);
+  box-shadow:0 10px 24px rgba(3,8,20,0.4);
+  transform:translateY(20px);
+  opacity:0;
+  transition:transform var(--transition),opacity var(--transition);
+}
+.card.visible{ transform:translateY(0); opacity:1; }
+
+  
+.card h3{ margin:0 0 8px 0; color:var(--neon-pink); font-size:16px }
+.card p{ margin:0; color:var(--muted); font-size:14px; line-height:1.5; }
+
+.glow-btn{
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:999px;
+  font-weight:800;
+  margin:8px 0;
+  background:linear-gradient(90deg,var(--neon-pink),var(--neon-green));
+  color:#fff;
+  box-shadow:0 8px 30px rgba(255,31,122,0.12), 0 12px 40px rgba(0,243,154,0.08);
+  border:none;
+  cursor:pointer;
+}
+.inline-btn{ background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--text);cursor:pointer; }
+
+
+.profile-wrap{ display:flex; justify-content:center; margin:22px 0; }
+.profile{
+  width:150px;height:150px;border-radius:50%;overflow:hidden;border:8px solid var(--neon-green);
+  box-shadow:0 20px 40px rgba(0,0,0,0.45), 0 0 40px rgba(0,243,154,0.08);
+  background:#192732;
+}
+.profile img{ width:100%;height:100%;object-fit:cover;display:block; }
+
+
+footer{
+  background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.08));
+  color:var(--muted);
+  padding:18px;
+  margin-top:28px;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.footer-left{ font-size:14px }
+.footer-links{ display:flex; gap:12px; align-items:center }
+.footer-links a{ color:var(--text); text-decoration:none; font-weight:700; }
+
+
+.contact-form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.input, textarea{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
+  background:transparent;
+  color:var(--text);
+  resize:vertical;
+}
+.input::placeholder, textarea::placeholder{ color: rgba(255,255,255,0.35); }
+
+  
+.spacer{ height:40px; }
+
+
+.card:hover{ transform:translateY(-6px) scale(1.01); box-shadow:0 20px 40px rgba(3,8,20,0.6); }
+
+
+.switch{
+  width:48px;height:32px;border-radius:18px;background:rgba(255,255,255,0.06);display:flex;align-items:center;padding:4px;cursor:pointer;
+}
+.switch .knob{ width:24px;height:24px;border-radius:50%;background:linear-gradient(180deg,#fff,#e6eef8);transition:transform 200ms;transform:translateX(0); }
+body.light .switch .knob{ transform:translateX(16px); background:linear-gradient(180deg,#0b8757,#00b36a) }
+
+
+@media (max-width:520px){
+  .wrap{ padding:12px; }
+  .top{ gap:8px }
+  .title{ font-size:14px }
+  .hero h1{ font-size:24px }
+  .hero h2{ font-size:20px }
+  footer{ flex-direction:column; align-items:flex-start; gap:8px }
+}
+</style>
+</head>
+<body>
+
+
+<div class="overlay"></div>
+
+<div class="wrap">
+  <div class="top">
+    <div class="hamb" id="open-menu">☰</div>
+
+    <div class="title">Baxodir — Frontend Dasturchi</div>
+
+    <div class="controls">
+      
+      <div title="Dark / Light mode" id="mode-switch" class="switch" aria-hidden="false" role="button">
+        <div class="knob"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <nav class="menu" id="menu" aria-label="Asosiy menyu">
+    <a href="#info">Ma'lumotlar</a>
+    <a href="#services">Xizmatlar</a>
+    <a href="#projects">Loyihalar</a>
+    <a href="#blog">Blog</a>
+    <a href="#video">Video</a>
+    <a href="#contact">Kontakt</a>
+  </nav>
+
+  
+  <section class="hero" id="info">
+    <h1>Salom! Men</h1>
+    <h2>Baxodir</h2>
+    <p>
+      Men tajribali frontend web dasturchiman. Men hozirda web platformalar yaratish bilan shug‘ullanaman.
+      JavaScript, CSS, HTML va boshqa texnologiyalar bilan ishlayman.
+    </p>
+
+    <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+      <a href="#services" class="glow-btn" role="button">Xizmatlar</a>
+      <a href="#projects" class="inline-btn">Loyihalar</a>
+    </div>
+  </section>
+
+  
+  <div class="profile-wrap" style="margin-bottom:8px;">
+    <div class="profile">
+      <img src="https://yt3.googleusercontent.com/VF3zhUUDT16HhhOdgMV0VhRNIhP8V3CXC0W3J9WB0LJcSIOXNj_15-cCoy5fGzXEeD7G58tg=s900-c-k-c0x00ffffff-no-rj" alt="profil">
+    </div>
+  </div>
+
+  <div class="section-title">Qo'shimcha Ma'lumotlar</div>
+  <div class="grid" id="quick-info">
+    <div class="card"><h3>Mentorlar</h3><p>Quvonchbek Bobajonov</p></div>
+    <div class="card"><h3>Telefon</h3><p>+998-93-310-85-84</p></div>
+    <div class="card"><h3>Email</h3><p>baxodirkomiljanov2@gmail.com</p></div>
+    <div class="card"><h3>Instagram</h3><p>@baxodir___2011</p></div>
+    <div class="card"><h3>Skills</h3><p>HTML • CSS • JS </p></div>
+    <div class="card"><h3>Portfolio</h3><p><a href="#projects" style="color:var(--text);text-decoration:underline">Loyihalarga o‘tish</a></p></div>
+  </div>
+
+  
+  <div class="section-title" id="services">Xizmatlar</div>
+  <div class="grid" id="services-grid">
+    <div class="card">
+      <h3>Web Dasturlash</h3>
+      <p>Responsiv saytlar, portfolio, landing page, biznes saytlar. React, Vanilla JS, PWA tayyorlayman.</p>
+    </div>
+    <div class="card">
+      <h3>O‘yin Yaratish</h3>
+      <p>HTML5 Canvas, JavaScript asosidagi mini o‘yinlar — Puzzle Quest, Blok Blast va boshqalar.</p>
+    </div>
+  </div>
+
+  
+  <div class="section-title" id="projects">Loyihalar</div>
+  <div class="grid">
+    <div class="card">
+      <h3><a href="https://games.moorfo.uz/games/puzzle" style="color:var(--text);text-decoration:none">Puzzle Quest</a></h3>
+      <p class="muted">HTML5 Canvas o‘yini — soddalashtirilgan fizik, darajalar va ball tizimi.</p>
+    </div>
+
+
+    <div class="card">
+      <h3>Portfolio Sayti</h3>
+      <p class="muted">Bu sahifa - portfolio misoli, responsive va animatsiyalar bilan.</p>
+    </div>
+  </div>
+
+  <div class="section-title" id="blog">Blog</div>
+  <div class="grid">
+    <div class="card">
+      <h3>Dasturlashni Qanday Boshladim?</h3>
+      <p>Birinchi bolib maktabimizga IT Park dan mentorlar kelib dasturlash haqida va IT park haqida bizga tushuncha berishdi, keyin men dasturlashga qiziqib qoldim.Shundan keyin men o'qishga test topshirdim va testdan o'tdim.Mening mentorim Quvonchbek Bobajanov.U menga kop narsalarni orgatdi va hozirda html,css va javascript dasturlash tillarini bilaman.</p>
+    </div>
+    <div class="card">
+      <h3>Nega HTML, CSS va JS Muhim?</h3>
+      <p>HTML, CSS va JavaScript birgalikda ishlaganda sayt nafaqat mavjud bo‘ladi, balki chiroyli, qulay va interaktiv bo‘ladi. HTML — struktura, CSS — dizayn, JavaScript — harakat. Shu sababli, har bir veb-dasturchi uchun bu tillarni bilish juda muhim.</p>
+    </div>
+  </div>
+
+
+ 
+  <div class="section-title" id="contact">Kontakt</div>
+  <div class="grid" style="grid-template-columns:1fr 1fr;">
+    <div class="card">
+      <h3>Aloqa ma'lumotlari</h3>
+      <p>Telefon: +998-93-310-85-84</p>
+      <p>Email: baxodirkomiljanov2@gmail.com</p>
+      <p>Instagram: @baxodir___2011</p>
+      <div style="margin-top:12px;">
+        <a href="mailto:baxodirkomiljanov2@gmail.com" class="inline-btn">Email yozish</a>
+        <a href="https://t.me/yourtelegram" target="_blank" rel="noopener" class="inline-btn" style="margin-left:8px">Telegram</a>
+      </div>
+    </div>
+
+  <div class="spacer"></div>
+
+ 
+  <footer>
+    <div class="footer-left">&copy; 2025 Baxodir Komiljanov — Barcha huquqlar himoyalangan</div>
+    <div class="footer-links">
+      <a href="#info">Ma'lumot</a>
+      <a href="#services">Xizmatlar</a>
+      <a href="#contact">Kontakt</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+
+const open = document.getElementById('open-menu');
+const menu = document.getElementById('menu');
+open.addEventListener('click', ()=>{
+  menu.classList.toggle('open');
+  open.textContent = menu.classList.contains('open') ? '✕' : '☰';
+});
+
+  
+document.querySelectorAll('.menu a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    menu.classList.remove('open');
+    open.textContent='☰';
+  });
+});
+
+
+const modeSwitch = document.getElementById('mode-switch');
+const body = document.body;
+
+
+const saved = localStorage.getItem('site-theme');
+if(saved === 'light'){ body.classList.add('light'); }
+
+modeSwitch.addEventListener('click', ()=>{
+  body.classList.toggle('light');
+  const mode = body.classList.contains('light') ? 'light' : 'dark';
+  localStorage.setItem('site-theme', mode);
+});
+
+
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+},{
+  threshold:0.12
+});
+document.querySelectorAll('.card').forEach(card=>observer.observe(card));
+
+function sendForm(e){
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const message = document.getElementById('message').value.trim();
+  const result = document.getElementById('formResult');
+
+  
+  if(`!name  !email  !message`){
+    result.style.display='block';
+    result.textContent = 'Iltimos barcha maydonlarni to‘ldiring.';
+    return false;
+  
+  }
+  result.style.display='block';
+  result.textContent = 'Xabaringiz yuborildi! Tez orada javob beraman.';
+  document.getElementById('contactForm').reset();
+
+  
+  return false;
+}
+
+
+open.setAttribute('tabindex','0');
+open.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter' || e.key === ' '){ open.click(); }
+});
+
+
+(function(){
+  const iframe = document.querySelector('#video iframe');
+  if(!iframe) return;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        const src = iframe.getAttribute('data-src');
+        if(src) iframe.setAttribute('src', src);
+        io.unobserve(iframe);
+      }
+    });
+  });
+  io.observe(iframe);
+})();
+</script>
+
+</body>
+</html>
